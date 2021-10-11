@@ -26,6 +26,8 @@ GFX_ValueObject<T>::GFX_ValueObject(T value, Adafruit_GFX* tft, uint8_t size, ui
 template<class T>
 void GFX_ValueObject<T>::setValue(T value, bool redraw)
 {
+	if (_value == value) return;
+
 	if (redraw) clear();
 
 	_value = value;

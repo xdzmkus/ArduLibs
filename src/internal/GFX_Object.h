@@ -27,7 +27,7 @@ protected:
 
 	virtual void setCursorSize();
 
-	virtual void draw();
+	virtual void draw(uint16_t color);
 
 	virtual const String toString() const = 0;
 
@@ -55,49 +55,26 @@ GFX_Object::GFX_Object(Adafruit_GFX* tft, uint8_t size, uint16_t background, uin
 {
 }
 
-void GFX_Object::setCursorSize()
-{
-	_tft->setTextSize(_size);
-
-	if (_w != 0 || _h != 0)
-	{
-		uint16_t h1, w1;
-		_tft->getTextBounds(toString(), _x, _y, &_x, &_y, &w1, &h1);
-		_tft->setCursor((_w == 0) ? _x : (_x + (_w - w1) / 2), (_h == 0) ? _y : (_y + (_h - h1) / 2));
-	}
-	else
-	{
-		_tft->setCursor(_x, _y);
-	}
-}
-
-void GFX_Object::draw()
-{
-	_tft->print(toString());
-
-	if (!_extension.isEmpty())
-	{
-		_tft->setTextSize(_ext_size);
-		_tft->print(_extension);
-	}
-}
-
 void GFX_Object::clear()
 {
-	_tft->setTextColor(_background);
-
+#ifdef DEBUG_DRAW
+	_tft->drawRect(_x, _y, _w, _h, _background);
+#endif
+		
 	setCursorSize();
 
-	draw();
+	draw(_background);
 }
 
 void GFX_Object::show()
 {
-	_tft->setTextColor(_color);
+#ifdef DEBUG_DRAW
+	_tft->drawRect(_x, _y, _w, _h, _color);
+#endif
 
 	setCursorSize();
 
-	draw();
+	draw(_color);
 }
 
 void GFX_Object::setPosition(int16_t x, int16_t y, uint16_t w, uint16_t h, bool redraw)
@@ -139,6 +116,51 @@ void GFX_Object::setExtension(String extension, uint8_t size, bool redraw)
 	_ext_size = size;
 
 	if (redraw) show();
+}
+
+
+void GFX_Object::setCursorSize()
+{
+	_tft->setTextSize(_size);
+
+	if (_w != 0 || _h != 0)
+	{
+		uint16_t h1, w1;
+		_tft->getTextBounds(toString(), _x, _y, &_x, &_y, &w1, &h1);
+		_tft->setCursor((_w == 0) ? _x : (_x + (_w - w1) / 2), (_h == 0) ? _y : (_y + (_h - h1) / 2));
+	}
+	else
+	{
+		_tft->setCursor(_x, _y);
+	}
+}
+
+void GFX_Object::draw(uint16_t color)
+{
+	_tft->setTextColor(color);
+
+#ifdef DEBUG_DRAW
+	int16_t x1, y1;
+	uint16_t h1, w1;
+	_tft->getTextBounds(toString(), _tft->getCursorX(), _tft->getCursorY(), &x1, &y1, &w1, &h1);
+	_tft->drawRect(x1, y1, w1, h1, color);
+	Serial.printf("%s <=> width: %d and height: %d at X: %d and Y: %d\r\n", toString(), w1, h1, x1, y1);
+#endif
+
+	_tft->print(toString());
+
+	if (!_extension.isEmpty())
+	{
+		_tft->setTextSize(_ext_size);
+
+#ifdef DEBUG_DRAW
+		_tft->getTextBounds(_extension, _tft->getCursorX(), _tft->getCursorY(), &x1, &y1, &w1, &h1);
+		_tft->drawRect(x1, y1, w1, h1, color);
+		Serial.printf("%s <=> width: %d and height: %d at X: %d and Y: %d\r\n", _extension, w1, h1, x1, y1);
+#endif
+
+		_tft->print(_extension);
+	}
 }
 
 #endif

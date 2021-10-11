@@ -1,4 +1,5 @@
 #define DEBUG_OUTPUT
+//#define DEBUG_DRAW
 
 #ifndef DEBUG_OUTPUT
 #define log_print(msg)
@@ -39,11 +40,17 @@ unsigned int color = ST7735_BLACK;
 #define CO2_Y 5
 #define CO2_W 128
 
+GFX_Integer lcdCO2 = GFX_Integer(0, &tft, 3, background, color, CO2_X, CO2_Y, CO2_W);
+
 #define TEMP_X 5
 #define TEMP_Y 40
 
+GFX_Float lcdTemp = GFX_Float(0.0F, 2, &tft, 4, background, color, TEMP_X, TEMP_Y);
+
 #define HUM_X 5
 #define HUM_Y 75
+
+GFX_Float lcdHum = GFX_Float(0.0F, 1, &tft, 4, background, color, HUM_X, HUM_Y);
 
 #define TIME_Y 110
 #define TIME_H 18
@@ -56,12 +63,6 @@ unsigned int color = ST7735_BLACK;
 
 #define MIN_X  (SEC_X + SEC_W)
 #define MIN_W  40
-
-GFX_Integer lcdCO2 = GFX_Integer(0, &tft, 3, background, color, CO2_X, CO2_Y, CO2_W);
-
-GFX_Float lcdTemp = GFX_Float(0.0F, 2, &tft, 4, background, color, TEMP_X, TEMP_Y);
-
-GFX_Float lcdHum = GFX_Float(0.0F, 1, &tft, 4, background, color, HUM_X, HUM_Y);
 
 GFX_String lcdH = GFX_String("00", &tft, 2, background, color, HOUR_X, TIME_Y, HOUR_W, TIME_H);
 GFX_String lcdS = GFX_String(":", &tft, 2, background, color, SEC_X, TIME_Y, SEC_W, TIME_H);
@@ -79,7 +80,7 @@ void setup_TFT()
 	tft.setRotation(0);
 	tft.setTextWrap(false);			// Allow text to run off right edge
 	tft.fillScreen(background);
-	
+
 	lcdCO2.setExtension("PPM", 1, false);
 	lcdCO2.show();
 
@@ -113,7 +114,7 @@ void loop(void)
 
 	lcdHum.setValue(random(9999) / 100.0);
 
-	char newTimeString[2] = { 0 };
+	char newTimeString[3] = { 0 };
 
 	sprintf(newTimeString, "%02hu", random(24));
 	lcdH.setValue(String(newTimeString), true);

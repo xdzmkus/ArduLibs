@@ -19,7 +19,7 @@ protected:
 
 	void setCursorSize() override;
 
-	void draw() override;
+	void draw(uint16_t color) override;
 
 	const String toString() const override
 	{
@@ -31,6 +31,24 @@ protected:
 	uint8_t _decimalPlaces;
 	uint8_t _decimalSize;
 };
+
+void GFX_Float::setDecimalPlaces(uint8_t decimalPlaces, bool redraw)
+{
+	if (redraw) clear();
+
+	_decimalPlaces = decimalPlaces;
+
+	if (redraw) show();
+}
+
+void GFX_Float::setDecimalSize(uint8_t size, bool redraw)
+{
+	if (redraw) clear();
+
+	_decimalSize = (size >= _size) ? _size : size;
+
+	if (redraw) show();
+}
 
 void GFX_Float::setCursorSize()
 {
@@ -71,8 +89,10 @@ void GFX_Float::setCursorSize()
 	}
 }
 
-void GFX_Float::draw()
+void GFX_Float::draw(uint16_t color)
 {
+	_tft->setTextColor(color);
+
 	String strValue = toString();
 
 	int dotIdx = strValue.indexOf('.');
@@ -81,13 +101,17 @@ void GFX_Float::draw()
 	{
 		int16_t x1, y1;
 		uint16_t h1, w1, h2, w2;
-	
+
 		String valuePart = strValue.substring(0, dotIdx);
 
 		// print integer part
 
 		_tft->getTextBounds(valuePart, _tft->getCursorX(), _tft->getCursorY(), &x1, &y1, &w1, &h1);
 
+#ifdef DEBUG_DRAW
+		_tft->drawRect(x1, y1, w1, h1, color);
+		Serial.printf("%s <=> width: %d and height: %d at X: %d and Y: %d\r\n", valuePart, w1, h1, x1, y1);
+#endif
 		_tft->print(valuePart);
 
 		// print decimal part
@@ -102,6 +126,10 @@ void GFX_Float::draw()
 
 		_tft->setCursor(x1, y1);
 
+#ifdef DEBUG_DRAW
+		_tft->drawRect(x1, y1, w2, h2, color);
+		Serial.printf("%s <=> width: %d and height: %d at X: %d and Y: %d\r\n", valuePart, w2, h2, x1, y1);
+#endif
 		_tft->print(valuePart);
 
 		// print extension
@@ -114,37 +142,38 @@ void GFX_Float::draw()
 
 			_tft->setCursor(w1 >= w2 ? x1 : (x1 + w2 - w1), y1 - h1); // left or right adjust
 
+#ifdef DEBUG_DRAW
+			_tft->drawRect(_tft->getCursorX(), _tft->getCursorY(), w1, h1, color);
+			Serial.printf("%s <=> width: %d and height: %d at X: %d and Y: %d\r\n", _extension, w1, h1, _tft->getCursorX(), _tft->getCursorY());
+#endif
 			_tft->print(_extension);
 		}
 
 		return;
 	}
 
+#ifdef DEBUG_DRAW
+	int16_t x1, y1;
+	uint16_t h1, w1;
+	_tft->getTextBounds(strValue, _tft->getCursorX(), _tft->getCursorY(), &x1, &y1, &w1, &h1);
+	_tft->drawRect(x1, y1, w1, h1, color);
+	Serial.printf("%s <=> width: %d and height: %d at X: %d and Y: %d\r\n", strValue, w1, h1, x1, y1);
+#endif
+
 	_tft->print(strValue);
 
 	if (!_extension.isEmpty())
 	{
 		_tft->setTextSize(_ext_size);
+
+#ifdef DEBUG_DRAW
+		_tft->getTextBounds(_extension, _tft->getCursorX(), _tft->getCursorY(), &x1, &y1, &w1, &h1);
+		_tft->drawRect(x1, y1, w1, h1, color);
+		Serial.printf("%s <=> width: %d and height: %d at X: %d and Y: %d\r\n", _extension, w1, h1, x1, y1);
+#endif
+
 		_tft->print(_extension);
 	}
-}
-
-void GFX_Float::setDecimalPlaces(uint8_t decimalPlaces, bool redraw)
-{
-	if (redraw) clear();
-
-	_decimalPlaces = decimalPlaces;
-
-	if (redraw) show();
-}
-
-void GFX_Float::setDecimalSize(uint8_t size, bool redraw)
-{
-	if (redraw) clear();
-
-	_decimalSize = (size >= _size) ? _size : size;
-
-	if (redraw) show();
 }
 
 #endif
