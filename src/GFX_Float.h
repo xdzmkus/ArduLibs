@@ -73,7 +73,7 @@ void GFX_Float::setCursorSize()
 			_tft->setTextSize(_size);
 			_tft->getTextBounds(strValue.substring(0, dotIdx), _x, _y, &x, &y, &w1, &h1);
 			w1 += w2;
-			h1 += h2;
+			if (h2 > h1) h1 = h2;
 		}
 		else
 		{
