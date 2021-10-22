@@ -51,7 +51,7 @@ GFX_Float lcdTemp = GFX_Float(0.0F, 1, &tft, 3, background, color, TEMP_X, TEMP_
 #define CHAR_W 48
 #define CHAR_H 36
 
-GFX_UChar lcdChar = GFX_UChar(charLCD, &tft, 3, background, color, CHAR_X, CHAR_Y, CHAR_W, CHAR_H);
+GFX_UChar lcdChar = GFX_UChar(charLCD, &tft, 4, background, color, CHAR_X, CHAR_Y);
 
 #define CHRN_X 80
 #define CHRN_Y 36
@@ -96,18 +96,22 @@ void setup_TFT()
 	tft.setTextWrap(false);			// Allow text to run off right edge
 	tft.fillScreen(background);
 
-	lcdCO2.setExtension("PPM", 1, false);
+	lcdCO2.setExtension("int", 1, false);
 	lcdCO2.show();
 
 	lcdTemp.setDecimalSize(2, false);
-	lcdTemp.setExtension("C", 2, false);
+	lcdTemp.setExtension("F", 2, false);
 	lcdTemp.show();
 
+	lcdH.setExtension("H", 1, false);
 	lcdH.show();
 	lcdS.show();
+	lcdM.setExtension("M", 1, false);
 	lcdM.show();
 
+	lcdChar.setExtension("char", 1, false);
 	lcdChar.show();
+
 	lcdChrN.show();
 }
 
