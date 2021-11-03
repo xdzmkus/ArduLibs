@@ -1,5 +1,5 @@
 #define DEBUG_OUTPUT
-//#define DEBUG_DRAW
+#define DEBUG_DRAW
 
 #ifndef DEBUG_OUTPUT
 #define log_print(msg)
@@ -17,6 +17,7 @@
 #include "GFX_IntegerEx.h"
 #include "GFX_UChar.h"
 #include "GFX_UCharEx.h"
+#include "GFX_Boolean.h"
 
 // *** TFT-1.4 *** //
 #include <Adafruit_ST7735.h>
@@ -56,6 +57,13 @@ GFX_FloatEx lcdTemp = GFX_FloatEx(0.0F, 1, 4, String(static_cast<char>(248)) +"C
 #define CHAR_H 36
 
 GFX_UChar lcdChar = GFX_UChar(charLCD, 4, &tft, background, color, CHAR_X, CHAR_Y);
+
+#define CHRB_X 0
+#define CHRB_Y 36
+#define CHRB_W 80
+#define CHRB_H 16
+
+GFX_Boolean lcdChrB = GFX_Boolean(charLCD % 2, "odd", "even", 2, &tft, background, color, CHRB_X, CHRB_Y, CHRB_W, CHRB_H);
 
 #define CHRN_X 80
 #define CHRN_Y 36
@@ -105,6 +113,7 @@ void setup_TFT()
 
 	lcdChar.show();
 	lcdChrN.show();
+	lcdChrB.show();
 
 	lcdCO2.show();
 
@@ -130,6 +139,7 @@ void loop(void)
 
 	lcdChar.updateValue(--charLCD);
 	lcdChrN.updateText(String(charLCD));
+	lcdChrB.updateValue(charLCD % 2);
 
 	// ---
 
