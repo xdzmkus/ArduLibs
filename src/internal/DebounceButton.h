@@ -86,7 +86,7 @@ protected:
         bool debounced      : 1;
         uint8_t clicks      : 5;
     }
-    buttonFlags = { 0 };
+    buttonFlags = { false, false, false, 0 };
 
     bool debounce(unsigned long now);
 
