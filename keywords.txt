@@ -1,0 +1,84 @@
+########################################
+# Syntax Coloring Map For DebounceButton
+########################################
+
+########################################
+# Datatypes (KEYWORD1)
+########################################
+
+ArduinoDebounceButton           KEYWORD1
+DebounceButton                  KEYWORD1
+BtnEventHandler                 KEYWORD1
+EventsQueue                     KEYWORD1
+BUTTON_EVENT                    KEYWORD1
+BUTTON_CONNECTED                KEYWORD1
+BUTTON_NORMAL                   KEYWORD1
+
+########################################
+# Methods and Functions (KEYWORD2)
+########################################
+
+initPin                         KEYWORD2
+getPin                          KEYWORD2
+check                           KEYWORD2
+setEventHandler                 KEYWORD2
+clearEventHandler               KEYWORD2
+
+push                            KEYWORD2
+pop                             KEYWORD2
+length                          KEYWORD2
+
+########################################
+# Constants (LITERAL2)
+########################################
+
+delayDebounce                   LITERAL2
+delayRepeatedClick              LITERAL2
+delayLongPress                  LITERAL2
+
+VCC                             LITERAL2
+GND                             LITERAL2
+
+OPEN                            LITERAL2
+CLOSE                           LITERAL2
+
+########################################
+
+
+########################################
+# Syntax Coloring Map For RotaryEncoder
+########################################
+
+########################################
+# Datatypes (KEYWORD1)
+########################################
+
+ArduinoRotaryEncoder            KEYWORD1
+RotaryEncoder                   KEYWORD1
+ENCODER_EVENT                   KEYWORD1
+EncoderEventHandler             KEYWORD1
+EventsQueue                     KEYWORD1
+
+########################################
+# Methods and Functions (KEYWORD2)
+########################################
+
+initPins                        KEYWORD2
+setEventHandler                 KEYWORD2
+clearEventHandler               KEYWORD2
+getPinLeft                      KEYWORD2
+getPinRight                     KEYWORD2
+catchTicks                      KEYWORD2
+
+push                            KEYWORD2
+pop                             KEYWORD2
+length                          KEYWORD2
+ 
+########################################
+# Constants (LITERAL2)
+########################################
+
+LEFT                            LITERAL2
+RIGHT                           LITERAL2
+
+########################################
