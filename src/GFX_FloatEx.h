@@ -1,14 +1,14 @@
-#ifndef _GFX_FLOAT_H_
-#define _GFX_FLOAT_H_
+#ifndef _GFX_FLOATEX_H_
+#define _GFX_FLOATEX_H_
 
-#include "GFX_Text.h"
+#include "GFX_TextEx.h"
 
-class GFX_Float : public GFX_Text
+class GFX_FloatEx : public GFX_TextEx
 {
 public:
 
-	GFX_Float(float value, uint8_t decimalPlaces, uint8_t size, Adafruit_GFX* tft, uint16_t background, uint16_t color, int16_t x, int16_t y, uint16_t w = 0, uint16_t h = 0)
-		: GFX_Text(String(value, _decimalPlaces), size, tft, background, color, x, y, w, h), _value(value), _decimalPlaces(decimalPlaces), _decimalSize(size)
+	GFX_FloatEx(float value, uint8_t decimalPlaces, uint8_t size, String extText, uint8_t extSize, Adafruit_GFX* tft, uint16_t background, uint16_t color, int16_t x, int16_t y, uint16_t w = 0, uint16_t h = 0)
+		: GFX_TextEx(String(value, _decimalPlaces), size, extText, extSize, tft, background, color, x, y, w, h), _value(value), _decimalPlaces(decimalPlaces), _decimalSize(size)
 	{
 	};
 
@@ -31,26 +31,26 @@ protected:
 	uint8_t _decimalSize;
 };
 
-inline void GFX_Float::setDecimalPlaces(uint8_t decimalPlaces)
+inline void GFX_FloatEx::setDecimalPlaces(uint8_t decimalPlaces)
 {
 	_decimalPlaces = decimalPlaces;
 }
 
-inline void GFX_Float::setDecimalSize(uint8_t size)
+inline void GFX_FloatEx::setDecimalSize(uint8_t size)
 {
 	_decimalSize = (size >= _size) ? _size : size;
 }
 
-inline void GFX_Float::updateValue(float value)
+inline void GFX_FloatEx::updateValue(float value)
 {
 	if (_value == value) return;
 
 	_value = value;
 
-	GFX_Text::updateText(String(value, _decimalPlaces));
+	GFX_TextEx::updateText(String(value, _decimalPlaces));
 }
 
-void GFX_Float::setCursor()
+void GFX_FloatEx::setCursor()
 {
 	_tft->setTextSize(_size);
 
@@ -87,7 +87,7 @@ void GFX_Float::setCursor()
 	}
 }
 
-void GFX_Float::draw(uint16_t color)
+void GFX_FloatEx::draw(uint16_t color)
 {
 	int dotIdx = _text.indexOf('.');
 
@@ -127,10 +127,27 @@ void GFX_Float::draw(uint16_t color)
 		Serial.printf("%s <=> width: %d and height: %d at X: %d and Y: %d\r\n", valuePart, w2, h2, x1, y1);
 #endif
 		_tft->print(valuePart);
+
+		// print extension
+
+		if (!extension.isEmpty())
+		{
+			_tft->setTextSize(extensionSize);
+
+			_tft->getTextBounds(extension, x1, y1, &x1, &y1, &w1, &h1);
+
+			_tft->setCursor(w1 >= w2 ? x1 : (x1 + w2 - w1), y1 - h1); // left or right adjust
+
+#ifdef DEBUG_DRAW
+			_tft->drawRect(_tft->getCursorX(), _tft->getCursorY(), w1, h1, color);
+			Serial.printf("%s <=> width: %d and height: %d at X: %d and Y: %d\r\n", extension, w1, h1, _tft->getCursorX(), _tft->getCursorY());
+#endif
+			_tft->print(extension);
+		}
 	}
 	else
 	{
-		GFX_Text::draw(color);
+		GFX_TextEx::draw(color);
 	}
 }
 
