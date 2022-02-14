@@ -8,7 +8,7 @@ class GFX_Float : public GFX_Text
 public:
 
 	GFX_Float(float value, uint8_t decimalPlaces, uint8_t size, Adafruit_GFX* tft, uint16_t background, uint16_t color, int16_t x, int16_t y, uint16_t w = 0, uint16_t h = 0)
-		: GFX_Text(String(value, _decimalPlaces), size, tft, background, color, x, y, w, h), _value(value), _decimalPlaces(decimalPlaces), _decimalSize(size)
+		: GFX_Text(String(value, decimalPlaces), size, tft, background, color, x, y, w, h), _value(value), _decimalPlaces(decimalPlaces), _decimalSize(size)
 	{
 	};
 

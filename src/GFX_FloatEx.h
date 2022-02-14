@@ -8,7 +8,7 @@ class GFX_FloatEx : public GFX_TextEx
 public:
 
 	GFX_FloatEx(float value, uint8_t decimalPlaces, uint8_t size, String extText, uint8_t extSize, Adafruit_GFX* tft, uint16_t background, uint16_t color, int16_t x, int16_t y, uint16_t w = 0, uint16_t h = 0)
-		: GFX_TextEx(String(value, _decimalPlaces), size, extText, extSize, tft, background, color, x, y, w, h), _value(value), _decimalPlaces(decimalPlaces), _decimalSize(size)
+		: GFX_TextEx(String(value, decimalPlaces), size, extText, extSize, tft, background, color, x, y, w, h), _value(value), _decimalPlaces(decimalPlaces), _decimalSize(size)
 	{
 	};
 
