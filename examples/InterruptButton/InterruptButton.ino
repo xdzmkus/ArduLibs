@@ -29,7 +29,7 @@ void setup()
 	btn.initPin();
 
 	Serial.print(F("Button state while booting: "));
-	Serial.println(btn.check());
+	Serial.println(btn.getCurrentState());
 
 	btn.setEventHandler(handleButtonEvent);
 

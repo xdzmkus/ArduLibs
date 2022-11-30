@@ -17,13 +17,13 @@ enum class BUTTON_EVENT { Released, Pressed, Clicked, DoubleClicked, RepeatClick
 * @param VCC - button connected to VCC, mcu pin connected to GND, pinMode - INPUT
 * @param GND - button connected to GND, mcu pin connected to VCC, pinMode - INPUT_PULLUP
 */
-enum class BUTTON_CONNECTED { VCC = 0, GND = 1 };
+enum class BUTTON_CONNECTED { GND = 0, VCC = 1 };
 
 /**
 * @param OPEN - button normally open
 * @param CLOSE - button normally closed
 */
-enum class BUTTON_NORMAL { OPEN = 0, CLOSE = 1 };
+enum class BUTTON_NORMAL { CLOSE = 0, OPEN = 1 };
 
 /**
 * The event handler procedure.

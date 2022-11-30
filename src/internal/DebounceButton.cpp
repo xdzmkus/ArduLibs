@@ -26,18 +26,23 @@ void DebounceButton::clearEventHandler()
 
 bool DebounceButton::check()
 {
-	buttonFlags.currrentState = getPinState() ^ static_cast<bool>(connectedTo) ^ static_cast<bool>(normalState);
+	buttonFlags.currrentState = getCurrentState();
 
 	unsigned long now = getTicks();
 
 	// dispatch events if button is debounced
-	if (eventHandler && debounce(now))
+	if (debounce(now) && eventHandler)
 	{
 		processPressed(now);
 		processReleased(now);
 	}
 
-	return buttonFlags.currrentState;
+	return buttonFlags.debouncedState;
+}
+
+bool DebounceButton::getCurrentState()
+{
+	return getPinState() ^ static_cast<bool>(connectedTo) ^ static_cast<bool>(normalState);
 }
 
 bool DebounceButton::debounce(unsigned long now)
@@ -48,6 +53,7 @@ bool DebounceButton::debounce(unsigned long now)
 		if (!buttonFlags.debounced && (now - lastDebounceTime) > delayDebounce)
 		{
 			buttonFlags.debounced = true;
+			buttonFlags.debouncedState = buttonFlags.currrentState;
 		}
 	}
 	else

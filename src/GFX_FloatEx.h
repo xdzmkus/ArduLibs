@@ -106,7 +106,7 @@ void GFX_FloatEx::draw(uint16_t color)
 
 #ifdef DEBUG_DRAW
 		_tft->drawRect(x1, y1, w1, h1, color);
-		Serial.printf("%s <=> width: %d and height: %d at X: %d and Y: %d\r\n", valuePart, w1, h1, x1, y1);
+//		Serial.printf("%s <=> width: %d and height: %d at X: %d and Y: %d\r\n", valuePart, w1, h1, x1, y1);
 #endif
 		_tft->print(valuePart);
 
@@ -124,7 +124,7 @@ void GFX_FloatEx::draw(uint16_t color)
 
 #ifdef DEBUG_DRAW
 		_tft->drawRect(x1, y1, w2, h2, color);
-		Serial.printf("%s <=> width: %d and height: %d at X: %d and Y: %d\r\n", valuePart, w2, h2, x1, y1);
+//		Serial.printf("%s <=> width: %d and height: %d at X: %d and Y: %d\r\n", valuePart, w2, h2, x1, y1);
 #endif
 		_tft->print(valuePart);
 
@@ -140,7 +140,7 @@ void GFX_FloatEx::draw(uint16_t color)
 
 #ifdef DEBUG_DRAW
 			_tft->drawRect(_tft->getCursorX(), _tft->getCursorY(), w1, h1, color);
-			Serial.printf("%s <=> width: %d and height: %d at X: %d and Y: %d\r\n", extension, w1, h1, _tft->getCursorX(), _tft->getCursorY());
+//			Serial.printf("%s <=> width: %d and height: %d at X: %d and Y: %d\r\n", extension, w1, h1, _tft->getCursorX(), _tft->getCursorY());
 #endif
 			_tft->print(extension);
 		}

@@ -53,7 +53,7 @@ void GFX_UChar::draw(uint16_t color)
 	{
 
 #ifdef DEBUG_DRAW
-		Serial.printf("char %c <=> size: %d at X: %d and Y: %d\r\n", _value, _size, _x, _y);
+//		Serial.printf("char %c <=> size: %d at X: %d and Y: %d\r\n", _value, _size, _x, _y);
 #endif
 
 		_tft->drawChar(_x, _y, _value, color, _background, _size);
@@ -61,7 +61,7 @@ void GFX_UChar::draw(uint16_t color)
 	else
 	{
 #ifdef DEBUG_DRAW
-		Serial.printf("char %c <=> width: %d and height: %d at X: %d and Y: %d\r\n", _value, _w, _h, _x, _y);
+//		Serial.printf("char %c <=> width: %d and height: %d at X: %d and Y: %d\r\n", _value, _w, _h, _x, _y);
 #endif
 
 		_tft->drawChar(_x, _y, _value, color, _background, _w, _h);

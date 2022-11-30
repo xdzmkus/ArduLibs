@@ -48,7 +48,7 @@ void GFX_TextEx::draw(uint16_t color)
 		uint16_t h1, w1;
 		_tft->getTextBounds(extension, _tft->getCursorX(), _tft->getCursorY(), &x1, &y1, &w1, &h1);
 		_tft->drawRect(x1, y1, w1, h1, color);
-		Serial.printf("%s <=> width: %d and height: %d at X: %d and Y: %d\r\n", extension, w1, h1, x1, y1);
+//		Serial.printf("%s <=> width: %d and height: %d at X: %d and Y: %d\r\n", extension, w1, h1, x1, y1);
 #endif
 
 		_tft->print(extension);

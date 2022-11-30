@@ -4,9 +4,9 @@
 
 #include "ArduinoDebounceButton.h"
 
-#define BTN_PIN 13
+#define BTN_PIN 12
 
-ArduinoDebounceButton btn(BTN_PIN, BUTTON_CONNECTED::VCC, BUTTON_NORMAL::OPEN);
+ArduinoDebounceButton btn(BTN_PIN, BUTTON_CONNECTED::GND, BUTTON_NORMAL::OPEN);
 
 void handleButtonEvent(const DebounceButton* button, BUTTON_EVENT eventType)
 {

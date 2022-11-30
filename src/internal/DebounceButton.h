@@ -39,9 +39,16 @@ public:
     * If function is called less often, the debouncing algorithm may not work correctly,
     * which may cause other event detection algorithms to fail.
     *
-    * @return true if button pressed (not debounced)
+    * @return true if button pressed (debounced)
     */
     bool check();
+
+    /**
+    * Check current state of button. May be not debounced.
+    *
+    * @return true if button pressed
+    */
+    bool getCurrentState();
 
     /**
     * Install the BtnEventHandler function pointer
@@ -58,8 +65,18 @@ public:
 
 protected:
 
+    /**
+     * Check current state of button's PIN.
+     *
+     * @return PIN state (not debounced)
+    */
     virtual bool getPinState() = 0;
 
+    /**
+     * Get current processor time.
+     *
+     * @return timestamp
+    */
     virtual unsigned long getTicks() = 0;
 
     // Button pin number connected to 
@@ -81,12 +98,13 @@ protected:
     // Internal flags
     struct ButtonFlags
     {
+        bool debounced      : 1;
         bool currrentState  : 1;
         bool previousState  : 1;
-        bool debounced      : 1;
-        uint8_t clicks      : 5;
+        bool debouncedState : 1;
+        uint8_t clicks      : 4;
     }
-    buttonFlags = { false, false, false, 0 };
+    buttonFlags = { true, false, false, false, 0 };
 
     bool debounce(unsigned long now);
 

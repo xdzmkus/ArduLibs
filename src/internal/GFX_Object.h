@@ -24,6 +24,8 @@ public:
 	void clear();
 	void show();
 
+	void fill();
+
 protected:
 
 	virtual void setCursor() = 0;
@@ -63,6 +65,11 @@ void GFX_Object::show()
 	setCursor();
 
 	draw(_color);
+}
+
+void GFX_Object::fill()
+{
+	_tft->fillRect(_x, _y, _w, _h, _background);
 }
 
 inline void GFX_Object::setDimensions(int16_t x, int16_t y, uint16_t w, uint16_t h)
