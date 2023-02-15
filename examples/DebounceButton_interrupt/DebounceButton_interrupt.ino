@@ -82,8 +82,7 @@ void loop()
 			}
 		}
 
-	}
-	while (processBtnEvent);
+	} while (processBtnEvent);
 
 	delay(2000);
 }

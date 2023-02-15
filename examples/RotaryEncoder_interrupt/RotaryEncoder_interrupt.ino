@@ -9,7 +9,7 @@ ArduinoRotaryEncoder encoder(ENC2_PIN, ENC1_PIN);
 EventsQueue<ENCODER_EVENT, 32> queue;
 
 #if defined(ESP8266)
-IRAM_ATTR 
+IRAM_ATTR
 #endif
 void catchEncoderTicks()
 {

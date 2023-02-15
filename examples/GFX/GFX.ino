@@ -9,15 +9,7 @@
 #define log_println(msg) Serial.println(msg)
 #endif
 
-#include "GFX_Text.h"
-#include "GFX_TextEx.h"
-#include "GFX_Float.h"
-#include "GFX_FloatEx.h"
-#include "GFX_Integer.h"
-#include "GFX_IntegerEx.h"
-#include "GFX_UChar.h"
-#include "GFX_UCharEx.h"
-#include "GFX_Boolean.h"
+#include "GFX.h"
 
 // *** TFT-1.4 *** //
 #include <Adafruit_ST7735.h>

@@ -1,4 +1,34 @@
 ########################################
+# Syntax Coloring Map For SerialDebug
+########################################
+
+########################################
+# Datatypes (KEYWORD1)
+########################################
+
+SerialDebug                     KEYWORD1
+LOG_LEVEL                       KEYWORD1
+
+########################################
+# Methods and Functions (KEYWORD2)
+########################################
+
+begin                           KEYWORD2
+log                             KEYWORD2
+
+########################################
+# Constants (LITERAL2)
+########################################
+
+INFO                            LITERAL2
+WARN                            LITERAL2
+ERROR                           LITERAL2
+DEBUG                           LITERAL2
+
+########################################
+
+
+########################################
 # Syntax Coloring Map For DebounceButton
 ########################################
 
