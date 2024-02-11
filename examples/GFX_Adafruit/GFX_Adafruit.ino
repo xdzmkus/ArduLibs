@@ -11,6 +11,8 @@
 
 #include "GFX.h"
 
+using namespace ArduLibs;
+
 // *** TFT-1.4 *** //
 #include <Adafruit_ST7735.h>
 
@@ -41,35 +43,35 @@ unsigned char charLCD = 0;
 #define TEMP_W 80
 #define TEMP_H 32
 
-GFX_FloatEx lcdTemp = GFX_FloatEx(0.0F, 1, 4, String(static_cast<char>(248)) +"C", 2, &tft, background, color, TEMP_X, TEMP_Y, TEMP_W, TEMP_H);
+GFX_FloatEx lcdTemp = GFX_FloatEx<Adafruit_GFX>(0.0F, 1, 4, String(static_cast<char>(248)) + "C", 2, &tft, background, color, TEMP_X, TEMP_Y, TEMP_W, TEMP_H);
 
 #define CHAR_X 90
 #define CHAR_Y 0
 #define CHAR_W 38
 #define CHAR_H 36
 
-GFX_UChar lcdChar = GFX_UChar(charLCD, 4, &tft, background, color, CHAR_X, CHAR_Y);
+GFX_UChar lcdChar = GFX_UChar<Adafruit_GFX>(charLCD, 4, &tft, background, color, CHAR_X, CHAR_Y);
 
 #define CHRB_X 0
 #define CHRB_Y 36
 #define CHRB_W 80
 #define CHRB_H 16
 
-GFX_Boolean lcdChrB = GFX_Boolean(charLCD % 2, "odd", "even", 2, &tft, background, color, CHRB_X, CHRB_Y, CHRB_W, CHRB_H);
+GFX_Boolean lcdChrB = GFX_Boolean<Adafruit_GFX>(charLCD % 2, "odd", "even", 2, &tft, background, color, CHRB_X, CHRB_Y, CHRB_W, CHRB_H);
 
 #define CHRN_X 80
 #define CHRN_Y 36
 #define CHRN_W 48
 #define CHRN_H 16
 
-GFX_Text lcdChrN = GFX_Text(String(charLCD), 2, &tft, background, color, CHRN_X, CHRN_Y, CHRN_W, CHRN_H);
+GFX_Text lcdChrN = GFX_Text<Adafruit_GFX>(String(charLCD), 2, &tft, background, color, CHRN_X, CHRN_Y, CHRN_W, CHRN_H);
 
 #define CO2_X 0
 #define CO2_Y 52
 #define CO2_W 128
 #define CO2_H 40
 
-GFX_IntegerEx lcdCO2 = GFX_IntegerEx(0, 4, "ppm", 1, &tft, background, color, CO2_X, CO2_Y, CO2_W, CO2_H);
+GFX_IntegerEx lcdCO2 = GFX_IntegerEx<Adafruit_GFX>(0, 4, "ppm", 1, &tft, background, color, CO2_X, CO2_Y, CO2_W, CO2_H);
 
 #define TIME_Y 95
 #define TIME_H 33
@@ -83,9 +85,9 @@ GFX_IntegerEx lcdCO2 = GFX_IntegerEx(0, 4, "ppm", 1, &tft, background, color, CO
 #define MIN_X  (SEC_X + SEC_W)
 #define MIN_W  50
 
-GFX_TextEx lcdH = GFX_TextEx("00", 3, "H", 1, &tft, background, color, HOUR_X, TIME_Y, HOUR_W, TIME_H);
-GFX_UCharEx lcdS = GFX_UCharEx(':', 3, "S", 1, &tft, background, color, SEC_X, TIME_Y, SEC_W, TIME_H);
-GFX_TextEx lcdM = GFX_TextEx("00", 3, "M", 1, &tft, background, color, MIN_X, TIME_Y, MIN_W, TIME_H);
+GFX_TextEx lcdH = GFX_TextEx<Adafruit_GFX>("00", 3, "H", 1, &tft, background, color, HOUR_X, TIME_Y, HOUR_W, TIME_H);
+GFX_UCharEx lcdS = GFX_UCharEx<Adafruit_GFX>(':', 3, "S", 1, &tft, background, color, SEC_X, TIME_Y, SEC_W, TIME_H);
+GFX_TextEx lcdM = GFX_TextEx<Adafruit_GFX>("00", 3, "M", 1, &tft, background, color, MIN_X, TIME_Y, MIN_W, TIME_H);
 
 // -------------------------------------------------------------------------------------------------------------
 

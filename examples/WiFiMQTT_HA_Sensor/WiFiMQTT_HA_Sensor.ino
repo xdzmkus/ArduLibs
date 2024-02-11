@@ -1,15 +1,17 @@
-#define SERIAL_DEBUG
-#include "SerialDebug.h"
+#include "SerialDebug.hpp"
+
+#include "WiFiMQTT_HA.hpp"
+
+#include "ArduinoDebounceButton.h"
+
+using namespace ArduLibs;
 
 #define BTN_PIN D0
 
-#include "ArduinoDebounceButton.h"
-ArduinoDebounceButton btn(BTN_PIN, BUTTON_CONNECTED::GND, BUTTON_NORMAL::OPEN);
-
-#include "WiFiMQTT_HA.h"
+ArduinoDebounceButton btn(BTN_PIN, BUTTON_CONNECTED::VCC, BUTTON_NORMAL::OPEN);
 
 const char* const WLAN_AP_SSID = "ArduLibs-Sensor";
-const char* const WLAN_AP_PASS = "5b385136-901d88daa7c7";
+const char* const WLAN_AP_PASS = "5b385136";
 const char* const WLAN_HOSTNAME = "ArduLibs";
 
 const char* const DEVICE_UNIQUE_ID = "ArduLibs-Sensor-36c";
@@ -41,7 +43,7 @@ public:
 
 	void publishState()
 	{
-		DynamicJsonDocument doc(128);
+		JsonDocument doc;
 
 		doc["temperature"] = random(-20, 50);
 		doc["humidity"] = random(0, 100);
@@ -54,7 +56,7 @@ protected:
 
 	void discover() override
 	{
-		StaticJsonDocument<512> deviceDoc;
+		JsonDocument deviceDoc;
 
 		deviceDoc["platform"] = "mqtt";
 		deviceDoc["enabled_by_default"] = true;
@@ -63,14 +65,14 @@ protected:
 		deviceDoc["json_attributes_topic"] = COMMON_STATE_TOPIC;
 		deviceDoc["availability"][0]["topic"] = AVAIL_STATUS_TOPIC;
 
-		JsonObject device = deviceDoc.createNestedObject("device");
+		JsonObject device = deviceDoc["device"].to<JsonObject>();
 		device["identifiers"] = DEVICE_UNIQUE_ID;
 		device["manufacturer"] = DEVICE_manufacturer;
 		device["model"] = DEVICE_model;
 		device["name"] = DEVICE_name;
 		device["sw_version"] = DEVICE_sw_version;
 
-		DynamicJsonDocument doc(1024);
+		JsonDocument doc;
 
 		doc = deviceDoc;
 		doc["name"] = "Temperature";
@@ -137,11 +139,11 @@ void setup(void)
 	bool f_setupMode = btn.getCurrentState();
 
 	if (f_setupMode)
-		SerialDebug::log(LOG_LEVEL::WARN, F("BUTTON PRESSED - RECONFIGURE WIFI"));
+		SerialDebug::println(LOG_LEVEL::WARN, F("BUTTON PRESSED - RECONFIGURE WIFI"));
 
 	wifiMqttSensor.init(f_setupMode);
 
-	SerialDebug::log(LOG_LEVEL::WARN, String(F("Device restarted")));
+	SerialDebug::println(LOG_LEVEL::WARN, String(F("Device restarted")));
 
 	tickerMQTT.attach(MQTT_PUBLISH_INTERVAL, callback_publishMQTT);
 }

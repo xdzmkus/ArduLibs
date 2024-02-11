@@ -4,6 +4,8 @@
 #define ENC1_PIN D1 // encoder S1 pin
 #define ENC2_PIN D2	// encoder S2 pin
 
+using namespace ArduLibs;
+
 ArduinoRotaryEncoder encoder(ENC2_PIN, ENC1_PIN);
 
 EventsQueue<ENCODER_EVENT, 32> queue;

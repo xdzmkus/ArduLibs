@@ -6,6 +6,8 @@
 #include "EventsQueue.hpp"
 #include <TimerOne.h>
 
+using namespace ArduLibs;
+
 #define BTN_PIN 4
 
 ArduinoDebounceButton btn(BTN_PIN, BUTTON_CONNECTED::GND, BUTTON_NORMAL::OPEN);

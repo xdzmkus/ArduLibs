@@ -3,6 +3,8 @@
 #define ENC1_PIN D1 // encoder S1 pin
 #define ENC2_PIN D2	// encoder S2 pin
 
+using namespace ArduLibs;
+
 void handleEncoderEvent(const RotaryEncoder*, ENCODER_EVENT);
 
 ArduinoRotaryEncoder encoder(ENC2_PIN, ENC1_PIN, handleEncoderEvent);

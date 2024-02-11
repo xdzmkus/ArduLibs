@@ -3,32 +3,39 @@
 
 #include "GFX_Text.h"
 
-class GFX_Boolean : public GFX_Text
+namespace ArduLibs
 {
-public:
 
-	GFX_Boolean(bool value, String trueText, String falseText, uint8_t size, Adafruit_GFX* tft, uint16_t background, uint16_t color, int16_t x, int16_t y, uint16_t w = 0, uint16_t h = 0)
-		: GFX_Text(value ? trueText : falseText, size, tft, background, color, x, y, w, h), _value(value), _trueText(trueText), _falseText(falseText)
+	template <class GFX>
+	class GFX_Boolean : public GFX_Text<GFX>
 	{
+	public:
+
+		GFX_Boolean(bool value, String trueText, String falseText, uint8_t size, GFX* tft, uint16_t background, uint16_t color, int16_t x, int16_t y, uint16_t w = 0, uint16_t h = 0)
+			: GFX_Text<GFX>(value ? trueText : falseText, size, tft, background, color, x, y, w, h), _value(value), _trueText(trueText), _falseText(falseText)
+		{
+		};
+
+		inline void updateValue(bool value);
+
+	protected:
+
+		bool _value;
+		String _trueText;
+		String _falseText;
 	};
 
-	inline void updateValue(bool value);
 
-protected:
+	template <class GFX>
+	inline void GFX_Boolean<GFX>::updateValue(bool value)
+	{
+		if (_value == value) return;
 
-	bool _value;
-	String _trueText;
-	String _falseText;
-};
+		_value = value;
 
+		GFX_Text<GFX>::updateText(value ? _trueText : _falseText);
+	}
 
-inline void GFX_Boolean::updateValue(bool value)
-{
-	if (_value == value) return;
-
-	_value = value;
-
-	GFX_Text::updateText(value ? _trueText : _falseText);
 }
 
 #endif

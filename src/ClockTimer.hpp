@@ -7,98 +7,102 @@
 #include "WProgram.h"
 #endif
 
-template <class T>
-class ClockTimer
+namespace ArduLibs
 {
-protected:
 
-	T interval;
-	T lastTime;
-
-	bool active = false;
-
-public:
-
-	ClockTimer(T interval) : interval(interval)
+	template <class T>
+	class ClockTimer
 	{
-	};
+	protected:
 
-	virtual ~ClockTimer()
-	{
-	};
+		T interval;
+		T lastTime;
 
-	virtual void start()
-	{
-		active = true;
-		reset();
-	};
+		bool active = false;
 
-	virtual void stop()
-	{
-		active = false;
-	};
+	public:
 
-	virtual void reset()
-	{
-		lastTime = getClock();
-	};
-
-	virtual bool isActive() const
-	{
-		return active;
-	};
-
-	virtual bool isReady()
-	{
-		if (active && interval)
+		ClockTimer(T interval) : interval(interval)
 		{
-			auto ticks = getClock();
-			if (ticks - lastTime >= interval)
+		};
+
+		virtual ~ClockTimer()
+		{
+		};
+
+		virtual void start()
+		{
+			active = true;
+			reset();
+		};
+
+		virtual void stop()
+		{
+			active = false;
+		};
+
+		virtual void reset()
+		{
+			lastTime = getClock();
+		};
+
+		virtual bool isActive() const
+		{
+			return active;
+		};
+
+		virtual bool isReady()
+		{
+			if (active && interval)
 			{
-				lastTime = ticks;
-				return true;
+				auto ticks = getClock();
+				if (ticks - lastTime >= interval)
+				{
+					lastTime = ticks;
+					return true;
+				}
 			}
-		}
-		return false;
+			return false;
+		};
+
+	protected:
+		virtual T getClock() const = 0;
 	};
 
-protected:
-	virtual T getClock() const = 0;
-};
-
-class MillisTimer : public ClockTimer<unsigned long>
-{
-public:
-
-	static const unsigned long CLOCKS_IN_SEC = 1000UL;
-
-	MillisTimer(unsigned long interval) : ClockTimer(interval)
+	class MillisTimer : public ClockTimer<unsigned long>
 	{
+	public:
+
+		static const unsigned long CLOCKS_IN_SEC = 1000UL;
+
+		MillisTimer(unsigned long interval) : ClockTimer(interval)
+		{
+		};
+
+	protected:
+		unsigned long getClock() const override
+		{
+			return millis();
+		};
 	};
 
-protected:
-	unsigned long getClock() const override
+	class MicrosTimer : public ClockTimer<unsigned long>
 	{
-		return millis();
+	public:
+
+		static const unsigned long CLOCKS_IN_SEC = 1000000UL;
+
+		MicrosTimer(unsigned long interval) : ClockTimer(interval)
+		{
+		};
+
+	protected:
+		unsigned long getClock() const override
+		{
+			return micros();
+		};
 	};
-};
 
-class MicrosTimer : public ClockTimer<unsigned long>
-{
-public:
-
-	static const unsigned long CLOCKS_IN_SEC = 1000000UL;
-
-	MicrosTimer(unsigned long interval)	: ClockTimer(interval)
-	{
-	};
-
-protected:
-	unsigned long getClock() const override
-	{
-		return micros();
-	};
-};
-
+}
 
 #endif

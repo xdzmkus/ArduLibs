@@ -3,31 +3,36 @@
 
 #include "internal/DebounceButton.h"
 
-class ArduinoDebounceButton : public DebounceButton
+namespace ArduLibs
 {
-public:
 
-	ArduinoDebounceButton(uint8_t pin, BUTTON_CONNECTED c = BUTTON_CONNECTED::VCC, BUTTON_NORMAL n = BUTTON_NORMAL::OPEN)
-		: DebounceButton(pin, c, n)
+	class ArduinoDebounceButton : public DebounceButton
 	{
-	}
+	public:
 
-	void initPin()
-	{
-		connectedTo == BUTTON_CONNECTED::VCC ? pinMode(pin, INPUT) : pinMode(pin, INPUT_PULLUP);
-	}
+		ArduinoDebounceButton(uint8_t pin, BUTTON_CONNECTED c = BUTTON_CONNECTED::VCC, BUTTON_NORMAL n = BUTTON_NORMAL::OPEN)
+			: DebounceButton(pin, c, n)
+		{
+		}
 
-protected:
+		void initPin()
+		{
+			connectedTo == BUTTON_CONNECTED::VCC ? pinMode(pin, INPUT) : pinMode(pin, INPUT_PULLUP);
+		}
 
-	virtual bool getPinState() override
-	{
-		return static_cast<bool>(digitalRead(pin));
-	}
+	protected:
 
-	virtual unsigned long getTicks() override
-	{
-		return millis();
-	}
-};
+		virtual bool getPinState() override
+		{
+			return static_cast<bool>(digitalRead(pin));
+		}
+
+		virtual unsigned long getTicks() override
+		{
+			return millis();
+		}
+	};
+
+}
 
 #endif

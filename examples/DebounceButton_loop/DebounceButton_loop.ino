@@ -4,6 +4,8 @@
 
 #include "ArduinoDebounceButton.h"
 
+using namespace ArduLibs;
+
 #define BTN_PIN 13
 
 ArduinoDebounceButton btn(BTN_PIN, BUTTON_CONNECTED::VCC, BUTTON_NORMAL::OPEN);

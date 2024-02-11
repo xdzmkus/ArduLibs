@@ -1,15 +1,17 @@
-#define SERIAL_DEBUG
-#include "SerialDebug.h"
+#include "SerialDebug.hpp"
+
+#include "WiFiMQTT_HA.hpp"
 
 #define BTN_PIN D0
 
 #include "ArduinoDebounceButton.h"
+
+using namespace ArduLibs;
+
 ArduinoDebounceButton btn(BTN_PIN, BUTTON_CONNECTED::GND, BUTTON_NORMAL::OPEN);
 
-#include "WiFiMQTT_HA.h"
-
 const char* const WLAN_AP_SSID = "ArduLibs-Light";
-const char* const WLAN_AP_PASS = "5b385136-901d88daa7c7";
+const char* const WLAN_AP_PASS = "5b385136";
 const char* const WLAN_HOSTNAME = "ArduLibs";
 
 const char* const DEVICE_UNIQUE_ID = "ArduLibs-Light-36c";
@@ -44,7 +46,7 @@ public:
 		state = !state;
 		brightness += 5;
 
-		DynamicJsonDocument doc(128);
+		JsonDocument doc;
 
 		doc["state"] = state ? "ON" : "OFF";
 		doc["brightness"] = brightness;
@@ -57,7 +59,7 @@ protected:
 
 	void discover() override
 	{
-		DynamicJsonDocument doc(1024);
+		JsonDocument doc;
 
 		doc["name"] = "LED";
 		doc["unique_id"] = DEVICE_UNIQUE_ID;
@@ -76,7 +78,7 @@ protected:
 		doc["effect_list"][1] = "RAINBOW";
 
 
-		JsonObject device = doc.createNestedObject("device");
+		JsonObject device = doc["device"].to<JsonObject>();
 		device["identifiers"] = DEVICE_UNIQUE_ID;
 		device["manufacturer"] = DEVICE_manufacturer;
 		device["model"] = DEVICE_model;
@@ -125,11 +127,11 @@ void setup(void)
 	bool f_setupMode = btn.getCurrentState();
 
 	if (f_setupMode)
-		SerialDebug::log(LOG_LEVEL::WARN, F("BUTTON PRESSED - RECONFIGURE WIFI"));
+		SerialDebug::println(LOG_LEVEL::WARN, F("BUTTON PRESSED - RECONFIGURE WIFI"));
 
 	wifiMqttLight.init(f_setupMode);
 
-	SerialDebug::log(LOG_LEVEL::WARN, String(F("Device restarted")));
+	SerialDebug::println(LOG_LEVEL::WARN, String(F("Device restarted")));
 
 	tickerMQTT.attach(MQTT_PUBLISH_INTERVAL, callback_publishMQTT);
 }

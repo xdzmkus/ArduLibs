@@ -3,31 +3,35 @@
 
 #include "internal/RotaryEncoder.h"
 
-class ArduinoRotaryEncoder : public RotaryEncoder
+namespace ArduLibs
 {
-public:
-	ArduinoRotaryEncoder(uint8_t S2, uint8_t S1, EncoderEventHandler eventHandler = nullptr) : RotaryEncoder(S2, S1, eventHandler)
+
+	class ArduinoRotaryEncoder : public RotaryEncoder
 	{
+	public:
+		ArduinoRotaryEncoder(uint8_t S2, uint8_t S1, EncoderEventHandler eventHandler = nullptr) : RotaryEncoder(S2, S1, eventHandler)
+		{
+		};
+
+		~ArduinoRotaryEncoder()
+		{
+		};
+
+		void initPins()
+		{
+			pinMode(pinLeft, INPUT_PULLUP);
+			pinMode(pinRight, INPUT_PULLUP);
+		};
+
+	protected:
+
+		virtual uint8_t getState()
+		{
+			return digitalRead(pinRight) | digitalRead(pinLeft) << 1;
+		};
+
 	};
 
-	~ArduinoRotaryEncoder()
-	{
-	};
-
-	void initPins()
-	{
-		pinMode(pinLeft, INPUT_PULLUP);
-		pinMode(pinRight, INPUT_PULLUP);
-	};
-
-protected:
-
-	virtual uint8_t getState()
-	{
-		return digitalRead(pinRight) | digitalRead(pinLeft) << 1;
-	};
-
-};
-
+}
 
 #endif
